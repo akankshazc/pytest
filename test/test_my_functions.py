@@ -2,6 +2,7 @@
 
 import pytest
 from source.my_functions import add, divide
+import time
 
 
 def test_add():
@@ -29,3 +30,19 @@ def test_divide():
 def test_add_strings():
     result = add('hello ', 'world')
     assert result == 'hello world'
+
+
+@pytest.mark.slow
+def test_very_slow():
+    time.sleep(5)
+    assert divide(10, 15) == 0.6666666666666666
+
+
+@pytest.mark.skip(reason="This feature is currently broken")
+def test_add():
+    assert add(1, 2) == 3
+
+
+@pytest.mark.xfail(reason="We know we cannot divide by zero")
+def test_divide_zero_broken():
+    divide(4, 0)
